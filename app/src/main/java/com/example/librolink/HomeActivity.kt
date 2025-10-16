@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.GridView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,12 +15,29 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // 🔹 Configurar Toolbar como ActionBar
+        // Toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.title = "LibroLink"
 
+        // Botón inferior: Profile
+        findViewById<Button>(R.id.btnProfile)?.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
+
+        // (Opcional) otros botones inferiores
+        findViewById<Button>(R.id.btnDetail)?.setOnClickListener {
+            // abre detalle o lo que necesites
+        }
+        findViewById<Button>(R.id.btnChat)?.setOnClickListener {
+            startActivity(Intent(this, ChatActivity::class.java))
+        }
+        findViewById<Button>(R.id.btnMap)?.setOnClickListener {
+            startActivity(Intent(this, MapActivity::class.java))
+        }
+
+        // Grid de libros (como ya lo tenías)
         val gridView = findViewById<GridView>(R.id.gridBooks)
-
         val books = listOf(
             Book("El Quijote", "Cervantes", "https://picsum.photos/200/300?random=1"),
             Book("Cien años de soledad", "Gabriel García Márquez", "https://picsum.photos/200/300?random=2"),
@@ -28,14 +46,11 @@ class HomeActivity : AppCompatActivity() {
             Book("Orgullo y prejuicio", "Jane Austen", "https://picsum.photos/200/300?random=5"),
             Book("Hamlet", "Shakespeare", "https://picsum.photos/200/300?random=6")
         )
-
         val adapter = BookAdapter(this, books)
         gridView.adapter = adapter
 
-        // 👉 Click en un libro → abre detalle
         gridView.setOnItemClickListener { _, _, position, _ ->
             val book = books[position]
-
             val intent = Intent(this, BookDetailActivity::class.java).apply {
                 putExtra("title", book.title)
                 putExtra("author", book.author)
@@ -45,13 +60,12 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    // 🔹 Cargar menú en Toolbar
+    // Menú del toolbar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.home_menu, menu)
         return true
     }
 
-    // 🔹 Acciones del menú
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_profile -> {

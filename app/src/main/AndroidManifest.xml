@@ -10,11 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LibroLink">
 
-        <activity android:name=".HomeActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".SettingsActivity" />
         <activity android:name=".BookDetailActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".MapActivity" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".HomeActivity" />
         <activity android:name=".RegisterActivity" />
 
 

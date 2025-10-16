@@ -1,9 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
+    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -12,61 +14,52 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-
-    <!-- Search -->
-    <EditText
-        android:id="@+id/searchBar"
-        android:hint="Search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp" />
-
-    <!-- Grid de libros -->
+    <!-- Contenido -->
     <GridView
         android:id="@+id/gridBooks"
-        android:numColumns="2"
-        android:horizontalSpacing="8dp"
-        android:verticalSpacing="8dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
+        android:layout_height="0dp"
+        android:numColumns="2"
+        android:verticalSpacing="16dp"
+        android:horizontalSpacing="16dp"
+        android:padding="16dp"
         android:layout_weight="1" />
 
-    <!-- Botonera inferior -->
+    <!-- Barra inferior -->
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp">
+        android:padding="8dp">
 
         <Button
             android:id="@+id/btnDetail"
-            android:text="Detail"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp" />
+            android:layout_weight="1"
+            android:text="Detail" />
 
         <Button
             android:id="@+id/btnChat"
-            android:text="Chat"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp" />
+            android:layout_weight="1"
+            android:text="Chat" />
 
         <Button
             android:id="@+id/btnMap"
-            android:text="Map"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp" />
+            android:layout_weight="1"
+            android:text="Map" />
 
         <Button
             android:id="@+id/btnProfile"
-            android:text="Profile"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp" />
+            android:layout_weight="1"
+            android:text="Profile" />
     </LinearLayout>
 
 </LinearLayout>
