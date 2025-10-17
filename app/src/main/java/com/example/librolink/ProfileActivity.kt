@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.librolink.data.DbProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : BaseActivity() {
 
     private lateinit var tvNombreCompleto: TextView
     private lateinit var tvCorreo: TextView
@@ -30,6 +29,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         setContentView(R.layout.activity_profile)
+        setupBottomNavigation(ProfileActivity::class.java)
 
         tvNombreCompleto = findViewById(R.id.tvNombreCompleto)
         tvCorreo = findViewById(R.id.tvCorreo)

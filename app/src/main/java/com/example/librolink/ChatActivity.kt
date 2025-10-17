@@ -5,9 +5,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : BaseActivity() {
 
     private lateinit var chatContainer: LinearLayout
     private lateinit var chatInput: EditText
@@ -17,15 +16,21 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
+        // Configurar la navegación inferior
+        setupBottomNavigation(ChatActivity::class.java)
+
+        // Inicializar vistas
         chatContainer = findViewById(R.id.chatMessages)
         chatInput = findViewById(R.id.chatInput)
         btnSend = findViewById(R.id.btnSend)
 
+        // Obtener el título del libro si se pasa por intent
         val bookTitle = intent.getStringExtra("title")
-        title = "Chat - $bookTitle"
+        title = "Chat - ${bookTitle ?: "Libro"}"
 
+        // Acción del botón enviar
         btnSend.setOnClickListener {
-            val message = chatInput.text.toString()
+            val message = chatInput.text.toString().trim()
             if (message.isNotEmpty()) {
                 addMessage("Tú: $message")
                 chatInput.text.clear()

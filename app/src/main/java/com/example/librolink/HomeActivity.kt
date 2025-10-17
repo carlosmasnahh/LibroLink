@@ -6,37 +6,36 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.GridView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
-class HomeActivity : AppCompatActivity() {
 
+class HomeActivity : BaseActivity() {   // ← hereda de BaseActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        // Inicializa la barra de navegación inferior
+        setupBottomNavigation(HomeActivity::class.java)
+
         // Toolbar
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "LibroLink"
+        //val toolbar = findViewById<Toolbar>(R.id.Toolbar)
+        //setSupportActionBar(toolbar)
+        //supportActionBar?.title = "LibroLink"
 
         // Botón inferior: Profile
         findViewById<Button>(R.id.btnProfile)?.setOnClickListener {
             startActivity(Intent(this, ProfileActivity::class.java))
         }
 
-        // (Opcional) otros botones inferiores
-        findViewById<Button>(R.id.btnDetail)?.setOnClickListener {
-            // abre detalle o lo que necesites
-        }
+        // Otros botones inferiores
         findViewById<Button>(R.id.btnChat)?.setOnClickListener {
             startActivity(Intent(this, ChatActivity::class.java))
         }
-        findViewById<Button>(R.id.btnMap)?.setOnClickListener {
+        findViewById<Button>(R.id.btnSearch)?.setOnClickListener {
             startActivity(Intent(this, MapActivity::class.java))
         }
 
-        // Grid de libros (como ya lo tenías)
+        // Grid de libros
         val gridView = findViewById<GridView>(R.id.gridBooks)
         val books = listOf(
             Book("El Quijote", "Cervantes", "https://picsum.photos/200/300?random=1"),

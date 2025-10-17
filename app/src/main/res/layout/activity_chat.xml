@@ -18,15 +18,19 @@
 
         <EditText
             android:id="@+id/chatInput"
-            android:hint="Type your message..."
+            android:hint="Escribe tu mensaje..."
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btnSend"
-            android:text="Send"
+            android:text="Enviar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+
+    <!-- Barra de navegación inferior -->
+    <include layout="@layout/bottom_navigation" />
+
 </LinearLayout>
