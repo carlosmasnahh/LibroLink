@@ -6,38 +6,28 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.GridView
+import android.widget.ImageButton
+import android.widget.Toast
+import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 
+class HomeActivity : BaseActivity() {
 
-class HomeActivity : BaseActivity() {   // ← hereda de BaseActivity
+    private lateinit var gridView: GridView
+    private lateinit var adapter: BookAdapter
+    private lateinit var books: List<Book>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // Inicializa la barra de navegación inferior
+        // Inicializar bottom navigation
         setupBottomNavigation(HomeActivity::class.java)
 
-        // Toolbar
-        //val toolbar = findViewById<Toolbar>(R.id.Toolbar)
-        //setSupportActionBar(toolbar)
-        //supportActionBar?.title = "LibroLink"
+        // Inicializar GridView
+        gridView = findViewById(R.id.gridBooks)
 
-        // Botón inferior: Profile
-        findViewById<Button>(R.id.btnProfile)?.setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
-        }
-
-        // Otros botones inferiores
-        findViewById<Button>(R.id.btnChat)?.setOnClickListener {
-            startActivity(Intent(this, ChatActivity::class.java))
-        }
-        findViewById<Button>(R.id.btnSearch)?.setOnClickListener {
-            startActivity(Intent(this, MapActivity::class.java))
-        }
-
-        // Grid de libros
-        val gridView = findViewById<GridView>(R.id.gridBooks)
-        val books = listOf(
+        books = listOf(
             Book("El Quijote", "Cervantes", "https://picsum.photos/200/300?random=1"),
             Book("Cien años de soledad", "Gabriel García Márquez", "https://picsum.photos/200/300?random=2"),
             Book("La Odisea", "Homero", "https://picsum.photos/200/300?random=3"),
@@ -45,9 +35,11 @@ class HomeActivity : BaseActivity() {   // ← hereda de BaseActivity
             Book("Orgullo y prejuicio", "Jane Austen", "https://picsum.photos/200/300?random=5"),
             Book("Hamlet", "Shakespeare", "https://picsum.photos/200/300?random=6")
         )
-        val adapter = BookAdapter(this, books)
+
+        adapter = BookAdapter(this, books)
         gridView.adapter = adapter
 
+        // Click de tarjeta → detalles
         gridView.setOnItemClickListener { _, _, position, _ ->
             val book = books[position]
             val intent = Intent(this, BookDetailActivity::class.java).apply {
@@ -57,25 +49,60 @@ class HomeActivity : BaseActivity() {   // ← hereda de BaseActivity
             }
             startActivity(intent)
         }
-    }
 
-    // Menú del toolbar
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.home_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_profile -> {
-                startActivity(Intent(this, ProfileActivity::class.java))
-                true
-            }
-            R.id.menu_settings -> {
-                startActivity(Intent(this, SettingsActivity::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        // -------------------------------------------------------
+        // BOTÓN: Publicar libro (aún sin lógica)
+        // -------------------------------------------------------
+        findViewById<ImageButton>(R.id.btnAddBook)?.setOnClickListener {
+            Toast.makeText(this, "Función de publicar libro próximamente", Toast.LENGTH_SHORT).show()
         }
+
+        // -------------------------------------------------------
+        // BOTÓN: Buscar libros
+        // -------------------------------------------------------
+        findViewById<ImageButton>(R.id.btnSearchBooks)?.setOnClickListener {
+            openSearchDialog()
+        }
+    }
+
+    // ------------------------------
+    // Cuadro de búsqueda
+    // ------------------------------
+    private fun openSearchDialog() {
+        val dialog = android.app.AlertDialog.Builder(this)
+        dialog.setTitle("Buscar libros")
+
+        val input = EditText(this)
+        input.hint = "Buscar por nombre o autor"
+        dialog.setView(input)
+
+        dialog.setPositiveButton("Buscar") { _, _ ->
+            val query = input.text.toString().trim()
+            performSearch(query)
+        }
+
+        dialog.setNegativeButton("Cancelar", null)
+        dialog.show()
+    }
+
+    // ------------------------------
+    // Filtro de búsqueda
+    // ------------------------------
+    private fun performSearch(query: String) {
+        if (query.isEmpty()) {
+            adapter.updateList(books)
+            return
+        }
+
+        val filtered = books.filter {
+            it.title.contains(query, true) ||
+                    it.author.contains(query, true)
+        }
+
+        if (filtered.isEmpty()) {
+            Toast.makeText(this, "No se encontraron coincidencias", Toast.LENGTH_SHORT).show()
+        }
+
+        adapter.updateList(filtered)
     }
 }

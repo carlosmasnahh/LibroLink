@@ -2,37 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F4FAF9"
+    android:fitsSystemWindows="true">
 
-    <!-- Contenido con scroll (por si el mapa o los botones crecen más adelante) -->
-    <ScrollView
+    <!-- Espacio para cámara frontal / notch -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@android:color/transparent" />
+
+    <!-- Contenedor del mapa -->
+    <FrameLayout
+        android:id="@+id/mapContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="16dp">
+        android:background="#F4FAF9">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <!-- Google Map Fragment -->
+        <fragment
+            android:id="@+id/mapFragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent" />
 
-            <ImageView
-                android:id="@+id/mapPlaceholder"
-                android:background="#ddd"
-                android:layout_width="match_parent"
-                android:layout_height="300dp" />
+    </FrameLayout>
 
-            <Button
-                android:id="@+id/btnFindUsers"
-                android:text="Find users"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+    <!-- Botón superior del mapa -->
+    <Button
+        android:id="@+id/btnFindUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Find users"
+        android:layout_margin="16dp" />
 
-        </LinearLayout>
-    </ScrollView>
+    <!-- Espacio para botones de navegación del teléfono -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:background="@android:color/transparent" />
 
-    <!-- Barra de navegación inferior fija -->
+    <!-- Barra inferior -->
     <include
         layout="@layout/bottom_navigation"
         android:layout_width="match_parent"

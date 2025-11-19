@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#F4FAF9"
+    android:paddingTop="35dp"
+    android:paddingBottom="50dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- TITULO SUPERIOR -->
+    <TextView
+        android:id="@+id/txtTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Conversaciones"
+        android:textSize="26sp"
+        android:padding="16dp"
+        android:textStyle="bold"
+        android:textColor="#112125"/>
+
+    <!-- BARRA DE BÚSQUEDA -->
+    <EditText
+        android:id="@+id/inputBuscarUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:hint="Buscar usuario..."
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:background="@drawable/search_bar_bg"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp"/>
+
+    <!-- LISTA DE RESULTADOS DE BÚSQUEDA -->
+    <ListView
+        android:id="@+id/listaBusqueda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:dividerHeight="0dp"
+        android:layout_marginTop="4dp"/>
+
+    <!-- SECCIÓN: Conversaciones Previas -->
+    <TextView
+        android:id="@+id/txtConversaciones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Personas con las que has hablado"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#112125"/>
+
+    <!-- LISTA DE CONVERSACIONES -->
+    <ListView
+        android:id="@+id/listaConversaciones"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:dividerHeight="0dp"/>
+
+    <!-- Barra inferior -->
+    <include
+        android:id="@+id/bottomNavigation"
+        layout="@layout/bottom_navigation" />
+
+</LinearLayout>

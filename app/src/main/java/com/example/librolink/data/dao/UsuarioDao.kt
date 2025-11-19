@@ -19,4 +19,16 @@ interface UsuarioDao {
 
     @Query("UPDATE Usuario SET Reputacion = :nueva WHERE ID_Usuario = :userId")
     suspend fun actualizarReputacion(userId: Long, nueva: Double)
+
+    // ✔️ NUEVO: obtener todos los usuarios
+    @Query("SELECT * FROM Usuario ORDER BY Nombre ASC")
+    suspend fun obtenerTodos(): List<Usuario>
+
+    // ✔️ NUEVO: buscar usuarios por nombre o apellido
+    @Query("""
+        SELECT * FROM Usuario 
+        WHERE Nombre LIKE :query OR Apellido LIKE :query
+        ORDER BY Nombre ASC
+    """)
+    suspend fun buscarUsuariosPorNombreOApellido(query: String): List<Usuario>
 }
