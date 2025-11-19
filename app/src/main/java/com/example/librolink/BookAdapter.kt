@@ -9,7 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 
-class BookAdapter(private val context: Context, private val books: List<Book>) : BaseAdapter() {
+class BookAdapter(
+    private val context: Context,
+    private var books: List<Book>   // ← permite actualizar el listado
+) : BaseAdapter() {
 
     override fun getCount(): Int = books.size
 
@@ -18,7 +21,8 @@ class BookAdapter(private val context: Context, private val books: List<Book>) :
     override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.item_book, parent, false)
+        val view = convertView
+            ?: LayoutInflater.from(context).inflate(R.layout.item_book, parent, false)
 
         val book = books[position]
 
@@ -29,9 +33,17 @@ class BookAdapter(private val context: Context, private val books: List<Book>) :
         title.text = book.title
         author.text = book.author
 
-        // Usamos Glide para cargar imágenes
+        // Cargar imagen con Glide
         Glide.with(context).load(book.imageUrl).into(image)
 
         return view
+    }
+
+    // -----------------------------------------------------
+    // ACTUALIZAR LISTADO EN TIEMPO REAL (para búsqueda)
+    // -----------------------------------------------------
+    fun updateList(newList: List<Book>) {
+        books = newList
+        notifyDataSetChanged()
     }
 }

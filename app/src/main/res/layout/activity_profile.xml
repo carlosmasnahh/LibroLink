@@ -2,7 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F4FAF9"
+    android:fitsSystemWindows="true">
+
+    <!-- Espacio superior para cámara (Notch) -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="34dp" />
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:text="Mi Perfil"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <!-- Contenido con scroll -->
     <ScrollView
@@ -13,39 +31,71 @@
 
         <LinearLayout
             android:orientation="vertical"
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!-- Foto de usuario -->
+            <ImageView
+                android:id="@+id/imgPerfil"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_user_placeholder"
+                android:background="@drawable/circle_shape"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="20dp"
+                android:contentDescription="Foto de perfil"
+                android:padding="2dp"
+                android:clipToOutline="true" />
+
+            <!-- Datos del usuario -->
             <TextView
                 android:id="@+id/tvNombreCompleto"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="22sp"
+                android:layout_marginTop="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tvCorreo"
                 android:layout_marginTop="8dp"
+                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tvDni"
                 android:layout_marginTop="4dp"
+                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <!-- Botón Editar Perfil -->
+            <Button
+                android:id="@+id/btnEditarPerfil"
+                android:text="Editar perfil"
+                android:layout_marginTop="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Botón Closing Session -->
             <Button
                 android:id="@+id/btnLogout"
                 android:text="Cerrar sesión"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- Barra inferior fija -->
+    <!-- Espacio para los botones de navegación del celular -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <!-- Barra inferior fija (tu navegación) -->
     <include
         layout="@layout/bottom_navigation"
         android:layout_width="match_parent"

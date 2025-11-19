@@ -2,6 +2,7 @@ package com.example.librolink
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -21,10 +22,18 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var etPass2: EditText
     private lateinit var btnRegister: Button
 
+    private lateinit var btnBack: ImageButton
+    private lateinit var btnEye1: ImageButton
+    private lateinit var btnEye2: ImageButton
+
+    private var isPassVisible = false
+    private var isPass2Visible = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        // Referencias
         etNombre = findViewById(R.id.editNombre)
         etApellido = findViewById(R.id.editApellido)
         etDni = findViewById(R.id.editDni)
@@ -33,7 +42,43 @@ class RegisterActivity : AppCompatActivity() {
         etPass2 = findViewById(R.id.editPasswordRegisterConfirm)
         btnRegister = findViewById(R.id.btnRegisterUser)
 
+        btnBack = findViewById(R.id.btnBackRegister)
+        btnEye1 = findViewById(R.id.btnTogglePass1)
+        btnEye2 = findViewById(R.id.btnTogglePass2)
+
+        // Acción para registrar
         btnRegister.setOnClickListener { registrar() }
+
+        // Botón atrás
+        btnBack.setOnClickListener {
+            finish()
+        }
+
+        // Mostrar / Ocultar contraseña 1
+        btnEye1.setOnClickListener {
+            isPassVisible = !isPassVisible
+
+            etPass.inputType = if (isPassVisible) {
+                InputType.TYPE_CLASS_TEXT
+            } else {
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+
+            etPass.setSelection(etPass.text.length)
+        }
+
+        // Mostrar / Ocultar contraseña 2
+        btnEye2.setOnClickListener {
+            isPass2Visible = !isPass2Visible
+
+            etPass2.inputType = if (isPass2Visible) {
+                InputType.TYPE_CLASS_TEXT
+            } else {
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+
+            etPass2.setSelection(etPass2.text.length)
+        }
     }
 
     private fun registrar() {
@@ -44,7 +89,6 @@ class RegisterActivity : AppCompatActivity() {
         val pass = etPass.text.toString()
         val pass2 = etPass2.text.toString()
 
-        // Validaciones
         when {
             nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty()
                     || correo.isEmpty() || pass.isEmpty() || pass2.isEmpty() ->
@@ -69,7 +113,6 @@ class RegisterActivity : AppCompatActivity() {
                     if (existeCorreo != null) { toast("El correo ya está registrado"); return@launch }
 
                     val existeDni = withContext(Dispatchers.IO) {
-                        // Búsqueda simple por DNI
                         db.usuarioDao().findByDni(dni)
                     }
                     if (existeDni != null) { toast("El DNI ya está registrado"); return@launch }
@@ -81,11 +124,12 @@ class RegisterActivity : AppCompatActivity() {
                                 Apellido = apellido,
                                 Dni = dni,
                                 Correo = correo,
-                                Contrasena = pass, // para demo (luego: hash)
+                                Contrasena = pass,
                                 Ubicacion = null
                             )
                         )
                     }
+
                     Session.saveUserId(this@RegisterActivity, nuevoId)
                     toast("¡Registro exitoso!")
                     startActivity(Intent(this@RegisterActivity, HomeActivity::class.java))

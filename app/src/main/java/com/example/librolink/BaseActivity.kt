@@ -11,8 +11,8 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
 
-    // Configura los botones de la barra inferior
     protected fun setupBottomNavigation(currentActivity: Class<*>) {
+
         findViewById<Button>(R.id.btnHome)?.setOnClickListener {
             if (currentActivity != HomeActivity::class.java) {
                 startActivity(Intent(this, HomeActivity::class.java))
@@ -22,8 +22,8 @@ open class BaseActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btnChat)?.setOnClickListener {
-            if (currentActivity != ChatActivity::class.java) {
-                startActivity(Intent(this, ChatActivity::class.java))
+            if (currentActivity != ConversacionesActivity::class.java) {
+                startActivity(Intent(this, ConversacionesActivity::class.java))
                 overridePendingTransition(0, 0)
                 finish()
             }

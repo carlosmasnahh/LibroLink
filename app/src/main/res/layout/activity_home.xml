@@ -2,30 +2,103 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#F4FAF9"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <!-- Barra superior personalizada -->
+    <LinearLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:layout_height="70dp"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="24dp">
+
+        <!-- Botón publicar libro -->
+        <ImageButton
+            android:id="@+id/btnAddBook"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_add_book"
+            android:contentDescription="Publicar Libro" />
+
+        <!-- Espacio izquierdo para centrar -->
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <!-- Contenedor centrado: Logo + BookSwapp -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:src="@drawable/ic_app_logo"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/titleBookSwapp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BookSwapp"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#112125" />
+        </LinearLayout>
+
+        <!-- Espacio derecho para centrar -->
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <!-- Icono buscar -->
+        <ImageButton
+            android:id="@+id/btnSearchBooks"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_search"
+            android:contentDescription="Buscar Libros" />
+
+    </LinearLayout>
+
+    <!-- Título de sección -->
+    <TextView
+        android:id="@+id/titleLibros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LIBROS"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#112125"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp" />
 
     <!-- Contenido principal -->
     <GridView
         android:id="@+id/gridBooks"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1"
         android:numColumns="2"
         android:verticalSpacing="16dp"
         android:horizontalSpacing="16dp"
-        android:padding="16dp"
-        android:layout_weight="1" />
+        android:padding="16dp"/>
 
-    <!-- Barra inferior -->
+    <!-- Navegación inferior -->
     <include layout="@layout/bottom_navigation" />
 
 </LinearLayout>
