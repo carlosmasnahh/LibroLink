@@ -21,5 +21,6 @@ data class Libro(
     val Genero: String? = null,
     val Estado: String,              // BUENO|REGULAR|MALO
     val Disponibilidad: Boolean = true,
+    val Portada: String? = null,
     val ID_Usuario: Long
 )

@@ -10,7 +10,7 @@ import com.example.librolink.data.entities.*
         Usuario::class, Libro::class, Intercambio::class,
         Comunicacion::class, Reputacion::class, Reporte::class, Notificacion::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class LibroLinkDb : RoomDatabase() {
