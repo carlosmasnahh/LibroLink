@@ -17,7 +17,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginBottom="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/logo_bookswaap"
             android:contentDescription="Logo" />
 
         <!-- Título -->
