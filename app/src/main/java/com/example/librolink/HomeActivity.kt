@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.librolink.data.DbProvider
+import com.example.librolink.ui.notificaciones.NotificacionesActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -51,6 +52,13 @@ class HomeActivity : BaseActivity() {
         findViewById<ImageButton>(R.id.btnSearchBooks).setOnClickListener {
             openSearchDialog()
         }
+
+        // --------------------------------------------------
+        // 🔔 Botón de notificaciones → abre NotificacionesActivity
+        // --------------------------------------------------
+        findViewById<ImageButton>(R.id.btnNotificaciones).setOnClickListener {
+            startActivity(Intent(this, NotificacionesActivity::class.java))
+        }
     }
 
     // ------------------------------------------------------------------
@@ -70,7 +78,6 @@ class HomeActivity : BaseActivity() {
                 db.libroDao().getBooksFromOtherUsers(userId)
             }
 
-            // Convertir a clase Book que usa tu adapter
             books = libroEntities.map {
                 Book(
                     it.Titulo,

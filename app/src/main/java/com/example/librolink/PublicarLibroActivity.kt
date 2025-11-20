@@ -10,7 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.example.librolink.data.LibroLinkDb
 import com.example.librolink.data.entities.Libro
+import com.example.librolink.data.entities.Notificacion
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PublicarLibroActivity : AppCompatActivity() {
 
@@ -29,9 +33,8 @@ class PublicarLibroActivity : AppCompatActivity() {
             "librolink.db"
         ).build()
 
-        // Obtener ID del usuario con Session
+        // ID del usuario
         val userId = Session.getUserId(this)
-
         if (userId == null) {
             Toast.makeText(this, "Error: usuario no identificado", Toast.LENGTH_SHORT).show()
             finish()
@@ -74,6 +77,8 @@ class PublicarLibroActivity : AppCompatActivity() {
             }
 
             lifecycleScope.launch {
+
+                // Guardar libro
                 val libro = Libro(
                     Titulo = titulo,
                     Autor = autor,
@@ -85,6 +90,33 @@ class PublicarLibroActivity : AppCompatActivity() {
                 )
 
                 db.libroDao().insert(libro)
+
+                // Fecha compatible con API 23
+                val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                val fecha = sdf.format(Date())
+
+                // 💬 Notificación PARA EL USUARIO ACTUAL
+                val notiUsuario = Notificacion(
+                    ID_Usuario = userId,
+                    Tipo = "SISTEMA",
+                    Contenido = "Libro publicado con éxito",
+                    FechaHora = fecha,
+                    Estado = "NUEVA"
+                )
+                db.notificacionDao().insert(notiUsuario)
+
+                // 💬 Notificación PARA LOS OTROS USUARIOS
+                val otrosUsuarios = db.usuarioDao().getAllUsersExcept(userId)
+                otrosUsuarios.forEach { user ->
+                    val notiOtros = Notificacion(
+                        ID_Usuario = user.ID_Usuario,
+                        Tipo = "INTERCAMBIO",
+                        Contenido = "Hay nuevos libros por intercambiar 📚",
+                        FechaHora = fecha,
+                        Estado = "NUEVA"
+                    )
+                    db.notificacionDao().insert(notiOtros)
+                }
 
                 Toast.makeText(
                     this@PublicarLibroActivity,

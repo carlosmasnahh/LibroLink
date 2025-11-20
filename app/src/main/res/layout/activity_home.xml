@@ -62,6 +62,15 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
+        <ImageButton
+            android:id="@+id/btnNotificaciones"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@android:drawable/ic_menu_info_details"
+            android:background="@android:color/transparent"
+            android:contentDescription="Notificaciones" />
+
+
         <!-- Icono buscar -->
         <ImageButton
             android:id="@+id/btnSearchBooks"

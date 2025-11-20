@@ -26,6 +26,10 @@
         <activity android:name=".ChatActivity"/>
         <activity android:name=".EditProfileActivity" />
 
+        <!-- 💥 AGREGAR ESTO 💥 -->
+        <activity android:name="com.example.librolink.ui.notificaciones.NotificacionesActivity"/>
+
+
         <!-- MAPS ACTIVITY -->
         <activity android:name=".MapActivity"/>
 
@@ -35,7 +39,7 @@
         <!-- Conversaciones -->
         <activity android:name=".ConversacionesActivity" />
 
-        <!-- 💥 ESTA ES LA QUE FALTABA 💥 -->
+        <!-- Publicar libro -->
         <activity android:name=".PublicarLibroActivity" />
 
         <!-- Activity inicial -->

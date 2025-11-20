@@ -31,4 +31,12 @@ interface UsuarioDao {
         ORDER BY Nombre ASC
     """)
     suspend fun buscarUsuariosPorNombreOApellido(query: String): List<Usuario>
+
+    @Query("SELECT * FROM Usuario")
+    suspend fun listarTodos(): List<Usuario>
+
+    @Query("SELECT * FROM Usuario WHERE ID_Usuario != :userId")
+    suspend fun getAllUsersExcept(userId: Long): List<Usuario>
+
+
 }
