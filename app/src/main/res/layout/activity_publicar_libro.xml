@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="#F4FAF9">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Imagen portada -->
+        <ImageView
+            android:id="@+id/imgPortadaLibro"
+            android:layout_width="160dp"
+            android:layout_height="220dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_add_book"
+            android:scaleType="centerCrop"
+            android:background="#DDDDDD"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnSubirPortada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subir portada"
+            android:layout_gravity="center"/>
+
+        <!-- Título -->
+        <EditText
+            android:id="@+id/edtTituloLibro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Título"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Autor -->
+        <EditText
+            android:id="@+id/edtAutorLibro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Autor"/>
+
+        <!-- Género -->
+        <EditText
+            android:id="@+id/edtGeneroLibro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Género"/>
+
+        <!-- Estado -->
+        <Spinner
+            android:id="@+id/spinnerEstado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Botón publicar -->
+        <Button
+            android:id="@+id/btnPublicarLibro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PUBLICAR LIBRO"
+            android:layout_marginTop="20dp"
+            android:background="#112125"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+
+</ScrollView>

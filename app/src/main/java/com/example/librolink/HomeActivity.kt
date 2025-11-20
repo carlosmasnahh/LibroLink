@@ -2,44 +2,37 @@ package com.example.librolink
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Button
+import android.widget.EditText
 import android.widget.GridView
 import android.widget.ImageButton
 import android.widget.Toast
-import android.widget.EditText
-import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
+import com.example.librolink.data.DbProvider
+import com.example.librolink.ui.notificaciones.NotificacionesActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeActivity : BaseActivity() {
 
     private lateinit var gridView: GridView
     private lateinit var adapter: BookAdapter
-    private lateinit var books: List<Book>
+    private var books: List<Book> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // Inicializar bottom navigation
+        // Navegación inferior
         setupBottomNavigation(HomeActivity::class.java)
 
-        // Inicializar GridView
+        // GridView
         gridView = findViewById(R.id.gridBooks)
 
-        books = listOf(
-            Book("El Quijote", "Cervantes", "https://picsum.photos/200/300?random=1"),
-            Book("Cien años de soledad", "Gabriel García Márquez", "https://picsum.photos/200/300?random=2"),
-            Book("La Odisea", "Homero", "https://picsum.photos/200/300?random=3"),
-            Book("1984", "George Orwell", "https://picsum.photos/200/300?random=4"),
-            Book("Orgullo y prejuicio", "Jane Austen", "https://picsum.photos/200/300?random=5"),
-            Book("Hamlet", "Shakespeare", "https://picsum.photos/200/300?random=6")
-        )
+        // Cargar libros reales
+        loadBooks()
 
-        adapter = BookAdapter(this, books)
-        gridView.adapter = adapter
-
-        // Click de tarjeta → detalles
+        // Click a tarjeta → detalles
         gridView.setOnItemClickListener { _, _, position, _ ->
             val book = books[position]
             val intent = Intent(this, BookDetailActivity::class.java).apply {
@@ -50,24 +43,57 @@ class HomeActivity : BaseActivity() {
             startActivity(intent)
         }
 
-        // -------------------------------------------------------
-        // BOTÓN: Publicar libro (aún sin lógica)
-        // -------------------------------------------------------
-        findViewById<ImageButton>(R.id.btnAddBook)?.setOnClickListener {
-            Toast.makeText(this, "Función de publicar libro próximamente", Toast.LENGTH_SHORT).show()
+        // Botón agregar libro
+        findViewById<ImageButton>(R.id.btnAddBook).setOnClickListener {
+            startActivity(Intent(this, PublicarLibroActivity::class.java))
         }
 
-        // -------------------------------------------------------
-        // BOTÓN: Buscar libros
-        // -------------------------------------------------------
-        findViewById<ImageButton>(R.id.btnSearchBooks)?.setOnClickListener {
+        // Botón buscar libro
+        findViewById<ImageButton>(R.id.btnSearchBooks).setOnClickListener {
             openSearchDialog()
+        }
+
+        // --------------------------------------------------
+        // 🔔 Botón de notificaciones → abre NotificacionesActivity
+        // --------------------------------------------------
+        findViewById<ImageButton>(R.id.btnNotificaciones).setOnClickListener {
+            startActivity(Intent(this, NotificacionesActivity::class.java))
         }
     }
 
-    // ------------------------------
+    // ------------------------------------------------------------------
+    // Cargar libros de la BD EXCLUYENDO los libros del usuario logueado
+    // ------------------------------------------------------------------
+    private fun loadBooks() {
+        val userId = Session.getUserId(this)
+        if (userId == null) {
+            Toast.makeText(this, "Error: usuario no identificado", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val db = DbProvider.get(this)
+
+        lifecycleScope.launch {
+            val libroEntities = withContext(Dispatchers.IO) {
+                db.libroDao().getBooksFromOtherUsers(userId)
+            }
+
+            books = libroEntities.map {
+                Book(
+                    it.Titulo,
+                    it.Autor,
+                    it.Portada
+                )
+            }
+
+            adapter = BookAdapter(this@HomeActivity, books)
+            gridView.adapter = adapter
+        }
+    }
+
+    // ---------------------------------------------
     // Cuadro de búsqueda
-    // ------------------------------
+    // ---------------------------------------------
     private fun openSearchDialog() {
         val dialog = android.app.AlertDialog.Builder(this)
         dialog.setTitle("Buscar libros")
@@ -85,9 +111,9 @@ class HomeActivity : BaseActivity() {
         dialog.show()
     }
 
-    // ------------------------------
+    // ---------------------------------------------
     // Filtro de búsqueda
-    // ------------------------------
+    // ---------------------------------------------
     private fun performSearch(query: String) {
         if (query.isEmpty()) {
             adapter.updateList(books)
@@ -96,7 +122,7 @@ class HomeActivity : BaseActivity() {
 
         val filtered = books.filter {
             it.title.contains(query, true) ||
-                    it.author.contains(query, true)
+                    (it.author ?: "").contains(query, true)
         }
 
         if (filtered.isEmpty()) {
@@ -105,4 +131,5 @@ class HomeActivity : BaseActivity() {
 
         adapter.updateList(filtered)
     }
+
 }

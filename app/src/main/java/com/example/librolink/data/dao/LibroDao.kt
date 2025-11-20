@@ -17,4 +17,8 @@ interface LibroDao {
 
     @Query("UPDATE Libro SET Disponibilidad = :disp WHERE ID_Libro = :libroId")
     suspend fun setDisponibilidad(libroId: Long, disp: Boolean)
+
+    @Query("SELECT * FROM Libro WHERE ID_Usuario != :userId")
+    suspend fun getBooksFromOtherUsers(userId: Long): List<Libro>
+
 }
