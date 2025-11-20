@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LibroLink">
 
-        <!-- API Key de Google Maps (PÉGALA EN "YOUR_API_KEY_HERE") -->
+        <!-- API Key de Google Maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="YOUR_API_KEY_HERE" />
@@ -26,7 +26,6 @@
         <activity android:name=".ChatActivity"/>
         <activity android:name=".EditProfileActivity" />
 
-
         <!-- MAPS ACTIVITY -->
         <activity android:name=".MapActivity"/>
 
@@ -35,6 +34,9 @@
 
         <!-- Conversaciones -->
         <activity android:name=".ConversacionesActivity" />
+
+        <!-- 💥 ESTA ES LA QUE FALTABA 💥 -->
+        <activity android:name=".PublicarLibroActivity" />
 
         <!-- Activity inicial -->
         <activity

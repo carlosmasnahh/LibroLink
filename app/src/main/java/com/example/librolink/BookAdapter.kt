@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 
 class BookAdapter(
     private val context: Context,
-    private var books: List<Book>   // ← permite actualizar el listado
+    private var books: List<Book>
 ) : BaseAdapter() {
 
     override fun getCount(): Int = books.size
@@ -26,22 +26,25 @@ class BookAdapter(
 
         val book = books[position]
 
-        val title = view.findViewById<TextView>(R.id.bookTitle)
-        val author = view.findViewById<TextView>(R.id.bookAuthor)
-        val image = view.findViewById<ImageView>(R.id.bookImage)
+        val titleView = view.findViewById<TextView>(R.id.bookTitle)
+        val authorView = view.findViewById<TextView>(R.id.bookAuthor)
+        val imageView = view.findViewById<ImageView>(R.id.bookImage)
 
-        title.text = book.title
-        author.text = book.author
+        titleView.text = book.title
+        authorView.text = book.author ?: "Autor desconocido"
 
-        // Cargar imagen con Glide
-        Glide.with(context).load(book.imageUrl).into(image)
+        // -----------------------------
+        // Glide con icono por defecto
+        // -----------------------------
+        Glide.with(context)
+            .load(book.imageUrl)
+            .placeholder(R.mipmap.ic_launcher)   // imagen mientras carga
+            .error(R.mipmap.ic_launcher)         // imagen si falla la carga
+            .into(imageView)
 
         return view
     }
 
-    // -----------------------------------------------------
-    // ACTUALIZAR LISTADO EN TIEMPO REAL (para búsqueda)
-    // -----------------------------------------------------
     fun updateList(newList: List<Book>) {
         books = newList
         notifyDataSetChanged()
